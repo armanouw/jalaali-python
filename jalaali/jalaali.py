@@ -80,6 +80,26 @@ class Jalaali:
         return year_is_valid and month_is_valid and day_is_valid
 
     @staticmethod
+    def is_valid_gregorian_date(gy, gm, gd):
+        """Checks whether a Gregorian date is valid or not.
+
+        :param gy: Gregorian Year
+        :type gy: int
+        :param gm: Gregorian Month
+        :type gm: int
+        :param gd: Gregorian Day
+        :type gd: int
+        :return: is date valid?
+        :rtype: bool
+        """
+
+        year_is_valid = (0 <= jgy <= 9999)
+        month_is_valid = (1 <= gm <= 12)
+        day_is_valid = (1 <= gd <= Jalaali.gregorian_month_length(gy, gm))
+
+        return year_is_valid and month_is_valid and day_is_valid
+    
+    @staticmethod
     def is_leap_jalaali_year(jy):
         """Checks whether this is a leap year or not.
 
@@ -89,6 +109,19 @@ class Jalaali:
         :rtype: bool
         """
         return Jalaali.jal_cal(jy)['leap'] == 0
+    
+        @staticmethod
+    def is_leap_gregorian_year(gy):
+        """Checks whether this is a leap year or not.
+
+        :param gy: Gregorian Year
+        :type gy: int
+        :return: is leap year?
+        :rtype: bool
+        """
+        if (gy%4 == 0 and gy%100 !=0) or (gy%100 == 0 and gy%400 == 0):
+            return True
+        return False
 
     @staticmethod
     def jalaali_month_length(jy, jm):
@@ -108,6 +141,25 @@ class Jalaali:
         if Jalaali.is_leap_jalaali_year(jy):
             return 30
         return 29
+    
+    @staticmethod
+    def gregorian_month_length(gy, gm):
+        """Number of days in a given month in a Gregorian year.
+
+        :param gy: Gregorian Year
+        :type gy: int
+        :param gm: Gregorian Month
+        :type gm: int
+        :return: number of days in month
+        :rtype: int
+        """
+        if gm in [1,3,5,7,8,10,12]:
+            return 31
+        if gm in [4,6,9,11]:
+            return 30
+        if Jalaali.is_leap_gregorian_year(jy):
+            return 29
+        return 28
 
     @staticmethod
     def jal_cal(jy):
